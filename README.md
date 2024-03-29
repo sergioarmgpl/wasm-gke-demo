@@ -40,7 +40,10 @@ gcloud container clusters create k8s-demo --num-nodes=2 --tags=allin,allout --ma
 4. /bin/bash build.sh YOUR_DOCKER_USER
 5. Install NGINX Ingress controller
 6. Get the Load Balancer IP and change it in the api-rest.yaml ingress section
-5. kubectl apply -f api-rest.yaml
+7. kubectl apply -f api-rest.yaml
+8. If you want to test the API you can run something like this:
+while true; do curl http://<LOAD_BALANCER_IP>.nip.io:8080/echo -H "Content-Type: application/json" --data '{"key":"value"}'; sleep 0.5; done
+
 
 # REFERENCES
 - https://github.com/WasmEdge/wasmedge_reqwest_demo
