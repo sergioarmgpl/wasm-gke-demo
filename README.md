@@ -13,7 +13,7 @@ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/insta
 cargo new api
 ```
 5. Change to api directory
-6. Create the main.rs file
+6. Update the main.rs with your desired code
 7. Add wasm32-wasi support
 ```
 rustup target add wasm32-wasi
