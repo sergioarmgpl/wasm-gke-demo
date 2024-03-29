@@ -7,7 +7,9 @@
 rustup target add wasm32-wasi
 ```
 3. Install WasmEdge (Local testing)
+```
 curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+```
 4. Create an application
 ```
 cargo new api
@@ -28,7 +30,9 @@ cargo add tokio_wasi --features tokio_wasi/rt,macros,net,time,io-util
 cargo build --target wasm32-wasi --release
 ```
 10. Run the code
+```
 wasmedge target/wasm32-wasi/release/api.wasm
+```
 
 ## Running the Wasm Kubernetes Example
 1. Create a GKE Cluster
@@ -36,13 +40,32 @@ wasmedge target/wasm32-wasi/release/api.wasm
 gcloud container clusters create k8s-demo --num-nodes=2 --tags=allin,allout --machine-type=n1-standard-2 --no-enable-network-policy
 ```
 2. Clone the repository
-3. cd api-rest/src
-4. /bin/bash build.sh YOUR_DOCKER_USER
-5. Install NGINX Ingress controller
+3. Change to the src directory
+```
+cd api-rest/src
+```
+4. Build the container image
+```
+/bin/bash build.sh YOUR_DOCKER_USER
+```
+5. Install NGINX Ingress controller using Helm
+```
+kubectl create ns nginx-ingress
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx 
+helm repo update 
+helm install nginx-ingress ingress-nginx/ingress-nginx -n nginx-ingress
+kubectl get services -n nginx-ingress (To get the Load Balancer IP Address)
+```
 6. Get the Load Balancer IP and change it in the api-rest.yaml ingress section
-7. kubectl apply -f api-rest.yaml
+7. Apply the YAML configuration to run the example:
+```
+kubectl apply -f api-rest.yaml
+```
 8. If you want to test the API you can run something like this:
+```
 while true; do curl http://<LOAD_BALANCER_IP>.nip.io/echo -H "Content-Type: application/json" --data '{"key":"value"}'; sleep 0.5; done
+```
+
 
 
 # REFERENCES
